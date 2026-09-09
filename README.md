@@ -5,4 +5,8 @@
 ## 依赖资源
 数据包来源：https://github.com/west2-online/learn-backend/tree/main/data/round-1-diving-2026
 
-环境：Oracle OpenJDK 21.0.10
+开发环境：
+- Oracle OpenJDK 21.0.10
+- IDEA 
+- windows 11
+
