@@ -1,12 +1,12 @@
 /*
     用于写入json数据的数据结构
+    根据数据包结构构建
  */
 
-import javax.xml.namespace.QName;
 import java.time.LocalDate;
 import java.util.List;
 
-class JsonData {
+public class JsonData {
     private int schemaVersion;
     private Competition competition;
     private List<Player> players;
