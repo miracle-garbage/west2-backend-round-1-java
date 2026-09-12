@@ -4,37 +4,35 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import com.fasterxml.jackson.databind.*;
+import data.JsonData;
 
 public class Lib {
-    public static Path getDataPath() throws RuntimeException {
+    public static Path getDataPath() throws Exception {
         // 获取读取data.json文件的路径：同目录 or 自定义
         ObjectMapper mapper = new ObjectMapper();
         DataPath dataPath = new DataPath();
+
         try (InputStream inputStream = Lib.class.getResourceAsStream("/data_path.json")) {
-            if (inputStream == null) System.out.println("无法读取data_path.json");
+            if (inputStream == null) throw new RuntimeException("无法读取文件");
             else {
                 dataPath = mapper.readValue(inputStream,DataPath.class);
             }
-        } catch (IOException e) {
-            System.out.println("无法读取data_path.json");
+        } catch (IOException ex) {
+            throw new RuntimeException("无法读取文件");
         }
 
         // 构建Path对象并返回
         if (dataPath.getStatus() == 0) {
             // default
-            try {
-                Path location = Paths.get(
-                        Lib.class
-                        .getProtectionDomain()
-                        .getCodeSource()
-                        .getLocation()
-                        .toURI()
-                );
+            Path location = Paths.get(
+                    Lib.class
+                    .getProtectionDomain()
+                    .getCodeSource()
+                    .getLocation()
+                    .toURI()
+            );
+            return location.getParent();
 
-                return location.getParent();
-            } catch (Exception e) {
-                throw new RuntimeException("构建path错误");
-            }
         } else {
             // user-define
             return Path.of(dataPath.getPath());
@@ -50,8 +48,6 @@ public class Lib {
         try {
             Path path = getDataPath();
             return mapper.readValue(path.toFile(),JsonData.class);
-        } catch (Exception e) {
-            System.out.println("路径构建错误");
         }
 
         return null;
