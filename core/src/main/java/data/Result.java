@@ -28,4 +28,12 @@ public class Result {
     public double getTotalPoints() {
         return totalPoints;
     }
+
+    public void printAll() {
+        System.out.println("Result{fullName=" + fullName
+                + ", rank=" + rank
+                + ", countryCode=" + countryCode
+                + ", scores=" + scores
+                + ", totalPoints=" + totalPoints + "}");
+    }
 }

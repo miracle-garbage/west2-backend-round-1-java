@@ -34,7 +34,7 @@ public class Lib {
                         .getLocation()
                         .toURI()
                 );
-                return location.getParent();
+                return location.getParent().resolve("data.json");
             } catch (URISyntaxException ex) {
                 throw new ReadJsonException("无法读取文件");
             }

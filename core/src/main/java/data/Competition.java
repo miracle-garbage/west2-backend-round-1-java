@@ -23,7 +23,10 @@ public class Competition {
     }
 
     public void printAll() {
-
+        System.out.println("Competition{id=" + id
+                + ", name=" + name
+                + ", from=" + from
+                + ", to=" + to + "}");
     }
 
 }

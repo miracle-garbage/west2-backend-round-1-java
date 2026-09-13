@@ -9,6 +9,7 @@ public class DWASearch {
         app.loadData();
 
         // 输出所有
+        app.getData().printAll();
     }
 }
 

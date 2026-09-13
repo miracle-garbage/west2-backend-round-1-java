@@ -33,4 +33,17 @@ public class Event {
     public List<Result> getResults() {
         return results;
     }
+
+    public void printAll() {
+        System.out.println("Event{command=" + command
+                + ", eventId=" + eventId
+                + ", gender=" + gender
+                + ", discipline=" + discipline
+                + ", eventType=" + eventType + "}");
+        if (results != null) {
+            for (Result result : results) {
+                result.printAll();
+            }
+        }
+    }
 }

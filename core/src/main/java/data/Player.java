@@ -21,4 +21,11 @@ public class Player {
     public String getCountryCode() {
         return countryCode;
     }
+
+    public void printAll() {
+        System.out.println("Player{fullName=" + fullName
+                + ", gender=" + gender
+                + ", country=" + country
+                + ", countryCode=" + countryCode + "}");
+    }
 }

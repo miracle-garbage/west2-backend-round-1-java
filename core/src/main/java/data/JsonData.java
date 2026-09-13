@@ -27,9 +27,28 @@ public class JsonData {
         return events;
     }
 
-    // 用于验证数据是否读取正确
+    // 用于验证数据是否读取正确 (其子项的printAll均ai生成)
     public void printAll() {
+        System.out.println("schemaVersion=" + schemaVersion);
 
+        System.out.println("competition:");
+        if (competition != null) {
+            competition.printAll();
+        }
+
+        System.out.println("players: " + (players == null ? 0 : players.size()));
+        if (players != null) {
+            for (Player player : players) {
+                player.printAll();
+            }
+        }
+
+        System.out.println("events: " + (events == null ? 0 : events.size()));
+        if (events != null) {
+            for (Event event : events) {
+                event.printAll();
+            }
+        }
     }
 }
 
