@@ -6,6 +6,8 @@ import java.nio.file.Paths;
 
 import com.fasterxml.jackson.databind.*;
 import data.JsonData;
+import exceptions.DataPathException;
+import exceptions.PathResolveException;
 import exceptions.ReadJsonException;
 
 public class Lib {
@@ -15,12 +17,12 @@ public class Lib {
         DataPath dataPath = new DataPath();
 
         try (InputStream inputStream = Lib.class.getResourceAsStream("/data_path.json")) {
-            if (inputStream == null) throw new ReadJsonException("无法读取文件");
+            if (inputStream == null) throw new DataPathException("无法读取文件");
             else {
                 dataPath = mapper.readValue(inputStream,DataPath.class);
             }
         } catch (IOException ex) {
-            throw new ReadJsonException("无法读取文件");
+            throw new DataPathException("无法读取文件");
         }
 
         // 构建Path对象并返回
@@ -36,7 +38,7 @@ public class Lib {
                 );
                 return location.getParent().resolve("data.json");
             } catch (URISyntaxException ex) {
-                throw new ReadJsonException("无法读取文件");
+                throw new PathResolveException("无法读取文件");
             }
         } else {
             // user-define
@@ -55,9 +57,6 @@ public class Lib {
             throw new ReadJsonException("无法读取文件");
         }
     }
-
-
-
 
 
 }
