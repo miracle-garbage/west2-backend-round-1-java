@@ -3,7 +3,6 @@ package data;/*
     根据数据包结构构建
  */
 
-import java.time.LocalDate;
 import java.util.List;
 
 public class JsonData {
@@ -26,6 +25,11 @@ public class JsonData {
 
     public List<Event> getEvents() {
         return events;
+    }
+
+    // 用于验证数据是否读取正确
+    public void printAll() {
+
     }
 }
 

@@ -21,4 +21,9 @@ public class Competition {
     public String getTo() {
         return to;
     }
+
+    public void printAll() {
+
+    }
+
 }

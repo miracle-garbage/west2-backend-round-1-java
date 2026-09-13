@@ -4,30 +4,13 @@ import java.util.List;
 
 public class DWASearch {
     public static void main(String[] args) {
+        // 读取数据
+        Application app = new Application();
+        app.loadData();
 
+        // 输出所有
     }
 }
 
-class Command {
-    // 命令行解析
-    private final List<String> args;
-
-    public Command (List<String> args) {
-        this.args = List.copyOf(args);
-    }
 
 
-}
-
-class Application {
-    // 初始化程序
-    private final JsonData data;
-
-    public Application() {
-        this.data = new JsonData();
-    }
-
-    public void loadData() {
-
-    }
-}
