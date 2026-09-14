@@ -6,6 +6,7 @@ import java.nio.file.Paths;
 
 import com.fasterxml.jackson.databind.*;
 import data.JsonData;
+import data.Player;
 import exceptions.DataPathException;
 import exceptions.PathResolveException;
 import exceptions.ReadJsonException;
@@ -58,6 +59,40 @@ public class Lib {
         }
     }
 
+    // 一些输出格式约束 均有换行
+    public static void printLine(int len) {
+        System.out.println("-".repeat(len));
+    }
+
+    public static void printLine() {
+        printLine(5);
+    }
+
+    public static void printName(String name) {
+        System.out.printf("Full Name:%s\n",name);
+    }
+
+    public static void printGender(String gender) {
+        System.out.printf("Full Name:%s\n",gender);
+    }
+
+    public static void printCountry(String country) {
+        System.out.printf("Full Name:%s\n",country);
+    }
+
+    public static void printPlayerFormat(Player player) {
+        printName(player.getFullName());
+        printGender(player.getGender());
+        printCountry(player.getCountry());
+        printLine();
+    }
+
+    // 输出信息
+    public static void displayAllPlayerInfo(JsonData data) {
+        for (Player player : data.getPlayers()) {
+            printPlayerFormat(player);
+        }
+    }
 
 }
 

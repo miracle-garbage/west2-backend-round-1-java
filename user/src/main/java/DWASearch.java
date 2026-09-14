@@ -1,15 +1,23 @@
-import data.JsonData;
+import exceptions.ReadJsonException;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class DWASearch {
     public static void main(String[] args) {
-        // 读取数据
-        Application app = new Application();
-        app.loadData();
+        try {
+            // 读取数据
+            Application app = new Application();
+            app.loadData();
 
-        // 输出所有
-        app.getData().printAll();
+            ArrayList<String> argList = new ArrayList<>(List.of(args));
+            CommandManager cmd = new CommandManager(argList);
+
+            cmd.commandManager(app.getData());
+
+        } catch (ReadJsonException ex) {
+            System.out.println(ex.getInfo()+"，请检查文件是否存在以及路径是否正确");
+        }
     }
 }
 
