@@ -1,3 +1,4 @@
+import exceptions.ParamException;
 import exceptions.ReadJsonException;
 
 import java.util.ArrayList;
@@ -16,7 +17,9 @@ public class DWASearch {
             cmd.commandManager(app.getData());
 
         } catch (ReadJsonException ex) {
-            System.out.println(ex.getInfo()+"，请检查文件是否存在以及路径是否正确");
+            System.out.println(ex.getMessage()+"，请检查文件是否存在以及路径是否正确");
+        } catch (ParamException ex) {
+            System.out.println("Error");
         }
     }
 }

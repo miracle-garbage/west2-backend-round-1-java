@@ -1,5 +1,16 @@
 package commands;
 
+import data.JsonData;
+import exceptions.ParamException;
+
 public class Result extends Command {
-    private static String name = "result";
+    public Result() {
+        super("result");
+    }
+
+    @Override
+    public void execute(JsonData data, CommandParam param) throws ParamException {
+        // TODO
+        ;
+    }
 }

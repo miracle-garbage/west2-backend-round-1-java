@@ -1,15 +1,25 @@
+import commands.Command;
+import commands.CommandParam;
+import commands.Players;
 import data.JsonData;
+import exceptions.ParamException;
 
+import java.io.IOException;
+import java.io.UncheckedIOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class CommandManager {
     // 命令注册表
-    private static final Map<String,> commandMap = new HashMap<>();
+    private static final Map<String, Command> commandMap = new HashMap<>();
     static {
-        commandMap.put();
-
+        Players players = new Players();
+        commandMap.put(players.getName(),players);
     }
     private static final ArrayList<String> extensions = new ArrayList<>();
     static {
@@ -17,19 +27,14 @@ public class CommandManager {
     }
 
     // 具体命令
-    private final ArrayList<String> args;
+    private final CommandParam args;
 
     public CommandManager(ArrayList<String> args) {
-        this.args = args;
+        this.args = new CommandParam(args);
     }
 
-    // 除去第一个元素后的参数列表
-    public ArrayList<String> getNextArgs(ArrayList<String> args) {
-        return new ArrayList<>(args.subList(1, args.size()));
-    }
-
-    // 命令转发 采用递归实现 在input.txt里再次写input2.txt...会栈溢出
-    public void commandManager(JsonData data) {
+    // 命令转发 只检查第一个参数
+    public void commandManager(JsonData data) throws ParamException {
         /*
             TODO
             维护一个指令队列。
@@ -42,7 +47,74 @@ public class CommandManager {
             最后：根据队列迭代执行所有指令
          */
 
+        // 指令队列：每个元素是一条指令的参数列表
+        ArrayDeque<CommandParam> commandQueue = new ArrayDeque<>();
 
+        if (args.isEmpty()) {
+            throw new ParamException("无任何参数输入");
+        }
+
+        if (isLegal(args.getFirstArg())) {
+            if (isCommand(args.getFirstArg())) {
+                commandQueue.addLast(args);
+            } else {
+                // 读取文件，将里面的内容每行为一个命令读取构造依次加入队列,文件不存在抛出异常即可
+                try {
+                    for (String line : Files.readAllLines(Path.of(args.getFirstArg()))) {
+                        // 跳过空行
+                        if (line.isBlank()) {
+                            continue;
+                        }
+                        // 一行按空白切分成多个参数，构造为一条指令加入队列末尾
+                        commandQueue.addLast(new CommandParam(new ArrayList<>(List.of(line.trim().split("\\s+")))));
+                    }
+                } catch (IOException e) {
+                    // 文件不存在等读取失败的情况直接抛出
+                    throw new UncheckedIOException(e);
+                }
+            }
+        } else {
+            throw new ParamException("首个参数错误");
+        }
+
+        // 迭代执行指令，每个都进行合法检查
+        for (CommandParam argLine : commandQueue) {
+            try {
+                if (!isCommand(argLine.getFirstArg()) || !isLegal(argLine.getFirstArg())) {
+                    throw new ParamException("首个参数错误");
+                } else {
+                    // 指令转发
+                    commandMap.get(argLine.getFirstArg()).execute(data,new CommandParam(argLine,1));
+                }
+            } catch (ParamException ex) {
+                System.out.println("Error");
+            }
+        }
     }
 
+    // 判断首个参数的合法性
+    public boolean isLegal(String arg) {
+        if (arg == null || arg.isEmpty()) {
+            return false;
+        }
+        // 如果是文件查看扩展名是否在extensions中
+        if (isFile(arg)) {
+            int dotIndex = arg.lastIndexOf('.');
+            String extension = arg.substring(dotIndex);
+            return extensions.contains(extension);
+        }
+        // 如果是命令查看是否在commandMap的key中
+        return commandMap.containsKey(arg);
+    }
+
+    // 判断是否是文件
+    public boolean isFile(String arg) {
+        return !isCommand(arg) && arg.charAt(0) != '.';
+    }
+
+    // 判断是否是命令
+    public boolean isCommand(String arg) {
+        // 只看有没有"."
+        return !arg.contains(".");
+    }
 }
