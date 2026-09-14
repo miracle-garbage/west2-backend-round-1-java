@@ -1,10 +1,12 @@
+package app;
+
 import exceptions.ParamException;
 import exceptions.ReadJsonException;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class DWASearch {
+public class Main {
     public static void main(String[] args) {
         try {
             // 读取数据

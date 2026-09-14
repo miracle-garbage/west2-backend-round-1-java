@@ -1,3 +1,5 @@
+package app;
+
 import commands.Command;
 import commands.CommandParam;
 import commands.Players;
