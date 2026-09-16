@@ -1,5 +1,6 @@
 package commands;
 
+import Lib.CommandParam;
 import data.JsonData;
 import exceptions.ParamException;
 

@@ -1,5 +1,6 @@
 package commands;
 
+import Lib.CommandParam;
 import data.JsonData;
 import exceptions.ParamException;
 
@@ -15,5 +16,5 @@ public abstract class Command {
         return name;
     }
 
-    public abstract void execute(JsonData data,CommandParam param) throws ParamException;
+    public abstract void execute(JsonData data, CommandParam param) throws ParamException;
 }

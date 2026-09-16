@@ -1,4 +1,4 @@
-package commands;
+package Lib;
 
 import java.util.ArrayList;
 
@@ -22,6 +22,10 @@ public class CommandParam {
         return args.getFirst();
     }
 
+    public String getArg(int index) {
+        return args.get(index);
+    }
+
     // 几个参数
     public int paramSize() {
         return args.size();
@@ -30,4 +34,6 @@ public class CommandParam {
     public boolean isEmpty() {
         return args.isEmpty();
     }
+
+
 }
