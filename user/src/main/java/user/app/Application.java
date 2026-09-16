@@ -1,7 +1,7 @@
 package user.app;
 
 import core.data.JsonData;
-import core.lib.Lib;
+import core.lib.ReadData;
 
 public class Application {
     // 初始化程序
@@ -12,7 +12,7 @@ public class Application {
     }
 
     public void loadData() {
-        this.data = Lib.readData();
+        this.data = ReadData.readData();
     }
 
     public JsonData getData() {

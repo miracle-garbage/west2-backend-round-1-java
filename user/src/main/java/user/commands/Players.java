@@ -1,10 +1,10 @@
 package user.commands;
 
 import core.data.JsonData;
+import core.lib.OutputFormat;
 import user.exceptions.ParamException;
 import user.lib.FileCache;
 import user.lib.CommandParam;
-import core.lib.Lib;
 
 import java.io.BufferedWriter;
 
@@ -25,7 +25,7 @@ public class Players extends Command {
             this.writeToFile(data,fileCache,filename);
         }
         else { // size == 0
-            Lib.displayAllPlayersInfo(data);
+            OutputFormat.displayAllPlayersInfo(data);
         }
     }
 
@@ -33,6 +33,6 @@ public class Players extends Command {
     public void writeToFile(JsonData data, FileCache fileCache, String filename) {
         BufferedWriter fileWriter = fileCache.createFileWriter(filename);
         // 将输出内容写入文件
-        Lib.writeAllPlayersInfo(data,fileWriter);
+        OutputFormat.writeAllPlayersInfo(data,fileWriter);
     }
 }
