@@ -1,8 +1,8 @@
-package commands;
+package user.commands;
 
-import Lib.CommandList;
-import Lib.CommandParam;
-import exceptions.ParamException;
+import user.lib.CommandList;
+import user.lib.CommandParam;
+import user.exceptions.ParamException;
 
 import java.io.IOException;
 import java.io.UncheckedIOException;
@@ -22,8 +22,8 @@ public class InputFile {
         // 读取文件，将里面的内容每行为一个命令读取构造依次加入队列,不检查内部指令合法性,文件不存在抛出异常即可
 
         // 先检查指令本身合法性
-        if (param.paramSize() > 2) throw new ParamException("参数过多");
-        if (param.paramSize() == 2) { // 第二参数只能填写文件
+        if (param.size() > 2) throw new ParamException("参数过多");
+        if (param.size() == 2) { // 第二参数只能填写文件
             if (commandList.isCommand(param.getArg(1)) || !commandList.isLegal(param.getArg(1))) throw new ParamException("第二个文件参数错误");
         }
 
@@ -34,7 +34,7 @@ public class InputFile {
                     continue;
                 }
                 // 一行按空白切分成多个参数，构造为一条指令加入队列末尾
-                if (param.paramSize() == 2) { // 如果后面有文件，每个指令后面加上"-f <filename>"
+                if (param.size() == 2) { // 如果后面有文件，每个指令后面加上"-f <filename>"
                     ArrayList<String> tmp = new ArrayList<>(List.of(line.trim().split("\\s+")));
                     tmp.add("-f");
                     tmp.add(param.getArg(1));

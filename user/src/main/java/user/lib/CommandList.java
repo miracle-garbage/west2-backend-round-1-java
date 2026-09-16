@@ -1,7 +1,7 @@
-package Lib;
+package user.lib;
 
-import commands.Command;
-import commands.Players;
+import user.commands.Command;
+import user.commands.Players;
 
 import java.util.ArrayList;
 import java.util.HashMap;

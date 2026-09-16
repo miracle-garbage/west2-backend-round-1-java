@@ -1,7 +1,7 @@
-package app;
+package user.app;
 
-import data.JsonData;
-import lib.Lib;
+import core.data.JsonData;
+import core.lib.Lib;
 
 public class Application {
     // 初始化程序

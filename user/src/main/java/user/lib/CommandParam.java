@@ -1,4 +1,4 @@
-package Lib;
+package user.lib;
 
 import java.util.ArrayList;
 
@@ -27,7 +27,7 @@ public class CommandParam {
     }
 
     // 几个参数
-    public int paramSize() {
+    public int size() {
         return args.size();
     }
 

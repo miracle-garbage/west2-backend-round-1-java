@@ -1,12 +1,11 @@
-package app;
+package user.app;
 
-import exceptions.ParamException;
-import exceptions.ReadJsonException;
+import user.exceptions.ParamException;
+import core.exceptions.ReadJsonException;
 
 import java.io.UncheckedIOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Stack;
 
 public class Main {
     public static void main(String[] args) {
@@ -15,6 +14,8 @@ public class Main {
             commandRun(app,args);
         } catch (ParamException e) {
             System.exit(0);
+        } catch (Exception e) {
+            System.exit(1); // 未知其他异常退出
         }
     }
 

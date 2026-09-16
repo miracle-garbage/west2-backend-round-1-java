@@ -1,4 +1,4 @@
-package data;/*
+package core.data;/*
     用于写入json数据的数据结构
     根据数据包结构构建
  */

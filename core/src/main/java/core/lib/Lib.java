@@ -1,17 +1,19 @@
-package lib;
+package core.lib;
 
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UncheckedIOException;
 import java.net.URISyntaxException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import com.fasterxml.jackson.databind.*;
-import data.JsonData;
-import data.Player;
-import exceptions.DataPathException;
-import exceptions.PathResolveException;
-import exceptions.ReadJsonException;
+import core.data.JsonData;
+import core.data.Player;
+import core.exceptions.DataPathException;
+import core.exceptions.PathResolveException;
+import core.exceptions.ReadJsonException;
 
 public class Lib {
     // 获取数据包路径
@@ -62,40 +64,51 @@ public class Lib {
     }
 
     // 一些输出格式约束 均有换行
-    public static void printLine(int len) {
-        System.out.println("-".repeat(len));
+    public static String outputLine(int len) {
+        return "-".repeat(len)+"\n";
     }
 
-    public static void printLine() {
-        printLine(5);
+    public static String outputLine() {
+        return outputLine(5);
     }
 
-    public static void printName(String name) {
-        System.out.printf("Full Name:%s\n",name);
+    public static String outputName(String name) {
+        return "Full Name:"+name+"\n";
     }
 
-    public static void printGender(String gender) {
-        System.out.printf("Full Name:%s\n",gender);
+    public static String outputGender(String gender) {
+        return "Gender:"+gender+"\n";
     }
 
-    public static void printCountry(String country) {
-        System.out.printf("Full Name:%s\n",country);
+    public static String outputCountry(String country) {
+        return "Country:"+country+"\n";
     }
 
-    public static void printPlayerFormat(Player player) {
-        printName(player.getFullName());
-        printGender(player.getGender());
-        printCountry(player.getCountry());
-        printLine();
+    public static String outputPlayerFormat(Player player) {
+        return
+            outputName(player.getFullName()) +
+            outputGender(player.getGender()) +
+            outputCountry(player.getCountry()) +
+            outputLine();
     }
 
-    // 输出信息
-    public static void displayAllPlayerInfo(JsonData data) {
+    // 输出全部选手信息
+    public static void displayAllPlayersInfo(JsonData data) {
         for (Player player : data.getPlayers()) {
-            printPlayerFormat(player);
+            System.out.printf("%s",outputPlayerFormat(player));
         }
     }
 
+    // 输出全部选手信息到文件
+    public static void writeAllPlayersInfo(JsonData data, BufferedWriter writer) {
+        try {
+            for (Player player : data.getPlayers()) {
+                writer.write(outputPlayerFormat(player));
+            }
+        } catch (IOException e) {
+            throw new UncheckedIOException("写入文件失败",e);
+        }
+    }
 }
 
 

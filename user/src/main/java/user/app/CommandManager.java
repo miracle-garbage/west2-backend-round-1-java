@@ -1,11 +1,13 @@
-package app;
+package user.app;
 
-import Lib.CommandList;
-import Lib.CommandParam;
-import commands.*;
-import data.JsonData;
-import exceptions.ParamException;
+import user.commands.InputFile;
+import user.lib.CommandList;
+import user.lib.CommandParam;
+import user.lib.FileCache;
+import core.data.JsonData;
+import user.exceptions.ParamException;
 
+import java.io.UncheckedIOException;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 
@@ -51,22 +53,26 @@ public class CommandManager {
             throw new ParamException("首个参数错误");
         }
 
+        // 构建文件池
+        FileCache fileCache = new FileCache();
+
         // 迭代执行指令，每个都进行合法检查
         for (CommandParam argLine : commandQueue) {
-            // TODO 构建文件池
-
-
             try {
                 if (!commandList.isCommand(argLine.getFirstArg()) || !commandList.isLegal(argLine.getFirstArg())) { // 文件内指令不支持再次为input.txt文件指令
                     throw new ParamException("首个参数错误");
                 } else {
                     // 指令转发
-                    commandList.getCommandMap().get(argLine.getFirstArg()).execute(data,new CommandParam(argLine,1));
+                    commandList.getCommandMap().get(argLine.getFirstArg()).execute(data,new CommandParam(argLine,1),fileCache);
                 }
             } catch (ParamException ex) {
                 System.out.println("Error");
+            } catch (UncheckedIOException e) {
+                System.out.println(e.getMessage());
             }
         }
+
+        fileCache.clear();
     }
 
 }

@@ -1,4 +1,4 @@
-package exceptions;
+package user.exceptions;
 
 public class ProgramException extends RuntimeException {
     // 出现此异常,程序终止
