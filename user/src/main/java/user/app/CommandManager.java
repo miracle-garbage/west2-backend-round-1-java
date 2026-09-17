@@ -86,6 +86,7 @@ public class CommandManager {
                     if (fileInput) {
                         BufferedWriter w = fileCache.createFileWriter(filename);
                         OutputFormat.writeError(w);
+                        System.out.printf("文件 %s 写入成功\n",filename);
                     } else {
                         OutputFormat.displayError();
                     }
