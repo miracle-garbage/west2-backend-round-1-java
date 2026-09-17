@@ -1,5 +1,7 @@
 package user.app;
 
+import core.lib.DataOutput;
+import core.lib.OutputFormat;
 import user.commands.InputFile;
 import user.exceptions.EventNotFound;
 import user.lib.CommandList;
@@ -8,6 +10,7 @@ import user.lib.FileCache;
 import core.data.JsonData;
 import user.exceptions.ParamException;
 
+import java.io.BufferedWriter;
 import java.io.UncheckedIOException;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
@@ -61,17 +64,39 @@ public class CommandManager {
         for (CommandParam argLine : commandQueue) {
             try {
                 if (!commandList.isCommand(argLine.getFirstArg()) || !commandList.isLegal(argLine.getFirstArg())) { // 文件内指令不支持再次为input.txt文件指令
-                    throw new ParamException("首个参数错误");
+                    // throw new ParamException("首个参数错误");
+                    /*
+                        将参数错误处理为：
+                            有文件参数：
+                                写Error进文件
+                            无文件参数：
+                                终端打印Error
+                     */
+                    ArrayList<CommandParam> paramSliceList =  argLine.paramSlice();
+                    boolean fileInput = false;
+                    String filename = null;
+                    for (CommandParam p : paramSliceList) {
+                        if (p.getFirstArg().equals("-f")) {
+                            fileInput = true;
+                            filename = (p.size() < 2 ? null : p.getArg(1));
+                            break;
+                        }
+                    }
+
+                    if (fileInput) {
+                        BufferedWriter w = fileCache.createFileWriter(filename);
+                        OutputFormat.writeError(w);
+                    } else {
+                        OutputFormat.displayError();
+                    }
                 } else {
                     // 指令转发
                     commandList.getCommandMap().get(argLine.getFirstArg()).execute(data,new CommandParam(argLine,1),fileCache);
                 }
             } catch (ParamException ex) {
-                System.out.println("Error");
+                System.out.println("ParameterError");
             } catch (UncheckedIOException | IllegalArgumentException ex) {
                 System.out.println(ex.getMessage());
-            } catch (EventNotFound ex) {
-                System.out.println("N/A");
             }
         }
 

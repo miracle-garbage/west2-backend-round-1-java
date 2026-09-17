@@ -45,18 +45,42 @@ public class OutputFormat {
     }
 
     public static void displayEventResult(Event e) {
-        for (Result r : e.getResults()) {
-            System.out.printf("%s",outputResultPlayerFormat(r));
+        if (e == null) {
+            System.out.println("N/A");
+            System.out.printf("%s",DataOutput.outputLine());
+        } else {
+            for (Result r : e.getResults()) {
+                System.out.printf("%s",outputResultPlayerFormat(r));
+            }
         }
+
+
     }
 
     public static void writeResultPlayerFormat(Event e,BufferedWriter writer) {
         try {
-            for (Result r : e.getResults()) {
-                writer.write(outputResultPlayerFormat(r));
+            if (e == null) {
+                writer.write("N/A\n"+DataOutput.outputLine());
+            } else {
+                for (Result r : e.getResults()) {
+                    writer.write(outputResultPlayerFormat(r));
+                }
             }
         } catch (IOException ex) {
             throw new UncheckedIOException("写入文件失败",ex);
         }
+    }
+
+    public static void writeError(BufferedWriter writer) {
+        try {
+            writer.write("Error\n"+DataOutput.outputLine());
+        } catch (IOException ex) {
+            throw new UncheckedIOException("写入文件失败",ex);
+        }
+    }
+
+    public static void displayError() {
+        System.out.println("Error");
+        System.out.printf("%s",DataOutput.outputLine());
     }
 }

@@ -30,6 +30,7 @@ public class Result extends Command {
     @Override
     public void execute(JsonData data, CommandParam param, FileCache fileCache) throws ParamException {
         // result <event> [[--detail] -f filename]
+        // 未找到比赛不作为异常，而是内容变为 N/A
 
         ArrayList<CommandParam> paramSliceList =  param.paramSlice();
         Event target;
@@ -37,9 +38,9 @@ public class Result extends Command {
         CommandParam first = paramSliceList.get(0);
         if (first.getFirstArg().startsWith("-")) {
             // 证明无定位比赛的名字参数
-            throw new EventNotFound("比赛名不能为空");
+            target = null;
         } else if (first.size() != 3) {
-            throw new EventNotFound("未找到比赛");
+            target = null; // 未找到
         } else {
             target = Collector.findEvent(
                     data,
@@ -47,8 +48,6 @@ public class Result extends Command {
                     first.getArg(1),
                     first.getArg(2)
             );
-
-            if (target == null) throw new EventNotFound("未找到比赛");
         }
 
         // 迭代执行各个参数指令，输出指令总在最后
@@ -80,7 +79,7 @@ public class Result extends Command {
 
     @Override
     public void writeToFile(Object data, FileCache fileCache, String filename) {
-        if (data instanceof Event) {
+        if (data == null || data instanceof Event) {
             BufferedWriter writer = fileCache.createFileWriter(filename);
             OutputFormat.writeResultPlayerFormat((Event) data,writer);
             System.out.printf("文件 %s 写入成功\n",filename);
@@ -91,7 +90,7 @@ public class Result extends Command {
 
     @Override
     public void displayOnTerminal(Object data) {
-        if (data instanceof Event) {
+        if (data == null || data instanceof Event) {
             OutputFormat.displayEventResult((Event) data);
         }
         else {
