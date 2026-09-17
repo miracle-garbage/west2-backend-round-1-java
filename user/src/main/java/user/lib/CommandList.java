@@ -1,6 +1,7 @@
 package user.lib;
 
 import user.commands.Command;
+import user.commands.Config;
 import user.commands.Players;
 import user.commands.Result;
 
@@ -17,8 +18,10 @@ public class CommandList {
     public CommandList() {
         Players players = new Players();
         Result result = new Result();
+        Config config = new Config();
         commandMap.put(players.getName(), players);
         commandMap.put(result.getName(),result);
+        commandMap.put(config.getName(), config);
         extensions.add(".txt");
     }
 

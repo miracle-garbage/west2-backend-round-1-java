@@ -23,16 +23,7 @@ public abstract class Command {
     public abstract void displayOnTerminal(Object data);
     public abstract void execute(JsonData data, CommandParam param, FileCache fileCache) throws ParamException;
 
-    public void writeToFile(Object data, FileCache fileCache,String filename) {
-        if (data == null) {
-            BufferedWriter fileWriter = fileCache.createFileWriter(filename);
-            // 将输出内容写入文件
-            OutputFormat.writeAllPlayersInfo((JsonData) data,fileWriter);
-            System.out.printf("文件 %s 写入成功\n",filename);
-        } else {
-            throw new RuntimeException("读取的数据与预定格式不匹配");
-        }
-    }
+    public abstract void writeToFile(Object data, FileCache fileCache,String filename);
 
     @FunctionalInterface
     interface Fn {
