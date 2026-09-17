@@ -1,1 +1,9 @@
-players -f test_data/output.txt
+result men 10m platform -f test_data/output.txt
+result men 10m platform -f test_data/output.txt
+result men 10m platform -f test_data/output.txt
+result men 10m platform -f test_data/output.txt
+result men 10m platform -f test_data/output.txt
+result men 10m platform -f test_data/output.txt
+result men 10m platform -f test_data/output.txt
+result men 10m platform -f test_data/output.txt
+players --default-output

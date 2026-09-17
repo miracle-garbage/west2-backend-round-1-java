@@ -1,6 +1,7 @@
 package user.app;
 
 import user.commands.InputFile;
+import user.exceptions.EventNotFound;
 import user.lib.CommandList;
 import user.lib.CommandParam;
 import user.lib.FileCache;
@@ -67,8 +68,10 @@ public class CommandManager {
                 }
             } catch (ParamException ex) {
                 System.out.println("Error");
-            } catch (UncheckedIOException e) {
-                System.out.println(e.getMessage());
+            } catch (UncheckedIOException | IllegalArgumentException ex) {
+                System.out.println(ex.getMessage());
+            } catch (EventNotFound ex) {
+                System.out.println("N/A");
             }
         }
 

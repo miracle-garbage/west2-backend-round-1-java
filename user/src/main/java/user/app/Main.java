@@ -15,6 +15,7 @@ public class Main {
         } catch (ParamException e) {
             System.exit(0);
         } catch (Exception e) {
+            // e.printStackTrace();
             System.exit(1); // 未知其他异常退出
         }
     }

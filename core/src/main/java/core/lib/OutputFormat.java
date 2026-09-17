@@ -1,7 +1,9 @@
 package core.lib;
 
+import core.data.Event;
 import core.data.JsonData;
 import core.data.Player;
+import core.data.Result;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -31,6 +33,30 @@ public class OutputFormat {
             }
         } catch (IOException e) {
             throw new UncheckedIOException("写入文件失败",e);
+        }
+    }
+
+    // 输出比赛结果
+    public static String outputResultPlayerFormat(Result r) {
+        return DataOutput.outputResultPlayerName(r) +
+                DataOutput.outputResultPlayerRank(r) +
+                DataOutput.outputResultPlayerScore(r) +
+                DataOutput.outputLine();
+    }
+
+    public static void displayEventResult(Event e) {
+        for (Result r : e.getResults()) {
+            System.out.printf("%s",outputResultPlayerFormat(r));
+        }
+    }
+
+    public static void writeResultPlayerFormat(Event e,BufferedWriter writer) {
+        try {
+            for (Result r : e.getResults()) {
+                writer.write(outputResultPlayerFormat(r));
+            }
+        } catch (IOException ex) {
+            throw new UncheckedIOException("写入文件失败",ex);
         }
     }
 }

@@ -2,6 +2,7 @@ package user.lib;
 
 import user.commands.Command;
 import user.commands.Players;
+import user.commands.Result;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -15,7 +16,9 @@ public class CommandList {
 
     public CommandList() {
         Players players = new Players();
+        Result result = new Result();
         commandMap.put(players.getName(), players);
+        commandMap.put(result.getName(),result);
         extensions.add(".txt");
     }
 

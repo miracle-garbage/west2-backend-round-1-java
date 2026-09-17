@@ -5,9 +5,10 @@ import user.lib.FileCache;
 import core.data.JsonData;
 import user.exceptions.ParamException;
 
+import java.util.Map;
+
 public abstract class Command {
-    String name;
-    // TODO:指令支持的输出文件格式扩展名表
+    private final String name;
 
     public Command(String name) {
         this.name = name;
@@ -18,5 +19,25 @@ public abstract class Command {
     }
 
     public abstract void execute(JsonData data, CommandParam param, FileCache fileCache) throws ParamException;
-    public abstract void writeToFile(JsonData data, FileCache fileCache,String filename);
+    public abstract void writeToFile(Object data, FileCache fileCache,String filename);
+    public abstract void displayOnTerminal(Object data);
+
+    @FunctionalInterface
+    interface Fn {
+        void apply(DataPack dataPack);
+    }
+
+}
+
+class DataPack {
+    public Object data;
+    public FileCache fileCache;
+
+    public String arg;
+
+    public DataPack(Object data, FileCache fileCache,String arg) {
+        this.data = data;
+        this.fileCache = fileCache;
+        this.arg = arg;
+    }
 }
