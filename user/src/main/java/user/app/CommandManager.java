@@ -26,7 +26,6 @@ public class CommandManager {
     // 命令转发 只检查第一个参数
     public void commandManager(JsonData data) throws ParamException {
         /*
-            TODO
             维护一个指令队列。
             先根据第一个参数判断是指令还是文件（且判断合法性，非法参数直接输出Error）
             如果是文件：

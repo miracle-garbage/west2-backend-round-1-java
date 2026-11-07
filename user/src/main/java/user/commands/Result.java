@@ -21,7 +21,7 @@ public class Result extends Command {
         super("result");
 
         // 注册所有支持的-n功能参数
-        // TODO detail
+
         commandFns = new HashMap<>();
         commandFns.put("-f",d -> {writeToFile(d.data,d.fileCache, d.arg);});
         commandFns.put("--default-output",dataPack -> {displayOnTerminal(dataPack.data);});
